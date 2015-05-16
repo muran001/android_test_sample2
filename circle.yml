@@ -1,3 +1,7 @@
+general:
+  artifacts:
+    - "app/build/outputs/apk/app-release-unsigned.apk"
+    - "app/build/outputs/lint-results.xml"
 machine:
   java:
     version: openjdk7
@@ -13,10 +17,15 @@ dependencies:
     - echo y | android update sdk --no-ui --all --filter "extra-google-m2repository"
     - echo y | android update sdk --no-ui --all --filter "extra-google-google_play_services"
     - echo y | android update sdk --no-ui --all --filter "addon-google_apis-google-19"
-
 test:
   override:
-    - echo "Nothing to do here"
+    - emulator -avd circleci-android22 -no-audio -no-window:
+        background: true
+        parallel: true
+    - circle-android wait-for-boot
+    - ./gradlew connectedAndroidTests
+    - cp -r app/build/outputs $CIRCLE_ARTIFACTS
+    - cp -r app/build/outputs/androidTest-results/* $CIRCLE_TEST_REPORTS
 deployment:
   master:
     branch: master
