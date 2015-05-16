@@ -20,12 +20,14 @@ dependencies:
     - echo y | android update sdk --no-ui --all --filter "extra-google-google_play_services"
     - echo y | android update sdk --no-ui --all --filter "addon-google_apis-google-19"
 test:
-  override:
+  pre:
     - emulator -avd circleci-android22 -no-audio -no-window:
-        background: true
-        parallel: true
     - circle-android wait-for-boot
+  override:
     - ./gradlew connectedAndroidTest
+  post:
+    - cp -r my-project/build/outputs $CIRCLE_ARTIFACTS
+    - cp -r my-project/build/outputs/androidTest-results/* $CIRCLE_TEST_REPORTS
 deployment:
   master:
     branch: master
