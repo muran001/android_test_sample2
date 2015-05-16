@@ -2,6 +2,8 @@ general:
   artifacts:
     - "app/build/outputs/apk/app-release-unsigned.apk"
     - "app/build/outputs/lint-results.xml"
+    - "app/build/reports/"
+    - "app/build/test-results"
 machine:
   java:
     version: openjdk7
@@ -23,9 +25,7 @@ test:
         background: true
         parallel: true
     - circle-android wait-for-boot
-    - ./gradlew connectedAndroidTests
-    - cp -r app/build/outputs $CIRCLE_ARTIFACTS
-    - cp -r app/build/outputs/androidTest-results/* $CIRCLE_TEST_REPORTS
+    - ./gradlew connectedAndroidTest
 deployment:
   master:
     branch: master
