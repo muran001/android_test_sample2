@@ -3,6 +3,9 @@ machine:
     version: openjdk7
   environment:
     ANDROID_HOME: /usr/local/android-sdk-linux
+dependencies:
+  pre:
+    - echo y | android update sdk --no-ui --all --filter "build-tools-22.0.1,android-22"
 test:
   override:
     - echo "Nothing to do here"
