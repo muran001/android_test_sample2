@@ -21,11 +21,12 @@ dependencies:
     - echo y | android update sdk --no-ui --all --filter "extra-android-m2repository"
     - echo y | android update sdk --no-ui --all --filter "extra-android-support"
     - echo y | android update sdk --no-ui --all --filter "extra-google-m2repository"
-    - echo y | android update sdk --no-ui --all --filter "extra-google-google_play_services"
+    - echo y | android update sdk --no-ui --all --filter "xtra-google-google_play_services"
     - echo y | android update sdk --no-ui --all --filter "addon-google_apis-google-19"
 test:
   pre:
-    - emulator -avd circleci-android22 -no-skin -no-audio -no-window -no-boot-anim:
+    - echo n | android create avd --force -n circleci-android-22 -t android-22
+    - emulator -avd circleci-android-22 -no-skin -no-audio -no-window -no-boot-anim:
         background: true
         parallel: true
     - circle-android wait-for-boot
