@@ -8,8 +8,3 @@ dependencies:
 test:
     override:
         - docker run -it android_test_sample2 ./
-    artifacts:
-        - "app/build/outputs/apk/app-release-unsigned.apk"
-        - "app/build/outputs/lint-results.xml"
-        - "app/build/reports/"
-        - "app/build/test-results"
