@@ -1,3 +1,4 @@
 #!/bin/bash
 ./start-emulator
+adb shell input keyevent 82 &
 ./gradlew --stacktrace connectedAndroidTest
