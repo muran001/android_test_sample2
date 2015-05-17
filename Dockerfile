@@ -16,9 +16,10 @@ RUN curl -L "${ANDROID_SDK_URL}" | tar --no-same-owner -xz -C /usr/local
 ENV ANDROID_HOME /usr/local/android-sdk-linux
 ENV ANDROID_SDK /usr/local/android-sdk-linux
 ENV PATH ${ANDROID_HOME}/tools:$ANDROID_HOME/platform-tools:$PATH
+ENV ADB_INSTALL_TIMEOUT 8
 
 # Install Android SDK components
-ENV ANDROID_SDK_COMPONENTS platform-tools,build-tools-22.0.1,android-22,extra-android-m2repository,extra-google-m2repository,sys-img-armeabi-v7a-android-22,extra-android-support,
+ENV ANDROID_SDK_COMPONENTS platform-tools,build-tools-22.0.1,android-19,extra-android-m2repository,extra-google-m2repository,sys-img-armeabi-v7a-android-19,extra-android-support,
 RUN echo y | android update sdk --no-ui --all --filter "${ANDROID_SDK_COMPONENTS}"
 
 # Support Gradle
@@ -39,5 +40,5 @@ COPY start-test /usr/local/bin/start-test
 RUN echo "sdk.dir=$ANDROID_HOME" > local.properties
 RUN ./gradlew --stacktrace androidDependencies
 
-RUN echo n | android create avd --force -n test-emulator -t android-22
+RUN echo n | android create avd --force -n test-emulator -t android-19
 

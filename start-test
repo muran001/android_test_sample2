@@ -1,5 +1,4 @@
 #!/bin/bash
 ./start-emulator
 adb shell input keyevent 82 &
-export ADB_INSTALL_TIMEOUT=8
 ./gradlew --stacktrace connectedAndroidTest
