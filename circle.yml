@@ -1,45 +1,15 @@
-general:
+machine:
+    services:
+        - docker
+dependencies:
+    override:
+        - docker build -t android_test_sample2 .
+
+test:
+    override:
+        - docker run -it android_test_sample2 ./
   artifacts:
     - "app/build/outputs/apk/app-release-unsigned.apk"
     - "app/build/outputs/lint-results.xml"
     - "app/build/reports/"
     - "app/build/test-results"
-machine:
-  java:
-    version: oraclejdk8
-  environment:
-    ANDROID_HOME: /usr/local/android-sdk-linux
-    JAVA_OPTS: "-Xmx2048m -XX:MaxPermSize=1024m"
-    ADB_INSTALL_TIMEOUT: 8
-dependencies:
-  cache_directories:
-    - ~/.android
-    - ~/android
-  pre:
-    - echo y | android update sdk --no-ui --all --filter "platform-tools,tools"
-    - echo y | android update sdk --no-ui --all --filter "build-tools-22.0.1,android-22"
-    - echo y | android update sdk --no-ui --all --filter "sys-img-armeabi-v7a-android-22"
-    - echo y | android update sdk --no-ui --all --filter "extra-android-m2repository"
-    - echo y | android update sdk --no-ui --all --filter "extra-android-support"
-    - echo y | android update sdk --no-ui --all --filter "extra-google-m2repository"
-    - echo y | android update sdk --no-ui --all --filter "xtra-google-google_play_services"
-    - echo y | android update sdk --no-ui --all --filter "addon-google_apis-google-19"
-test:
-  pre:
-    - echo n | android create avd --force -n circleci-android-22 -t android-22
-    - emulator -avd circleci-android-22 -no-skin -no-audio -no-window:
-        background: true
-        parallel: true
-    - circle-android wait-for-boot
-    - adb shell input keyevent 82 &
-  override:
-    - ./gradlew build
-    - ./gradlew connectedAndroidTest -PdisablePreDex
-  post:
-    - cp -r app/build/outputs $CIRCLE_ARTIFACTS
-    - cp -r app/build/outputs/androidTest-results/* $CIRCLE_TEST_REPORTS
-deployment:
-  master:
-    branch: master
-    commands:
-      - ./gradlew assemble
