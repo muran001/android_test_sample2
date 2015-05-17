@@ -6,7 +6,7 @@ general:
     - "app/build/test-results"
 machine:
   java:
-    version: openjdk7
+    version: openjdk8
   environment:
     ANDROID_HOME: /usr/local/android-sdk-linux
     JAVA_OPTS: "-Xmx2048m -XX:MaxPermSize=1024m"
@@ -27,12 +27,14 @@ dependencies:
 test:
   pre:
     - echo n | android create avd --force -n circleci-android-22 -t android-22
-    - emulator -avd circleci-android-22 -no-skin -no-audio -no-window &
+    - emulator -avd circleci-android-22 -no-skin -no-audio -no-window:
+        background: true
+        parallel: true
     - circle-android wait-for-boot
     - adb shell input keyevent 82 &
   override:
     - ./gradlew build
-    - ./gradlew connectedAndroidTest
+    - ./gradlew connectedAndroidTest -PdisablePreDex
   post:
     - cp -r app/build/outputs $CIRCLE_ARTIFACTS
     - cp -r app/build/outputs/androidTest-results/* $CIRCLE_TEST_REPORTS
