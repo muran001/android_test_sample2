@@ -6,7 +6,7 @@ general:
     - "app/build/test-results"
 machine:
   java:
-    version: openjdk8
+    version: oraclejdk8
   environment:
     ANDROID_HOME: /usr/local/android-sdk-linux
     JAVA_OPTS: "-Xmx2048m -XX:MaxPermSize=1024m"
