@@ -27,7 +27,7 @@ dependencies:
 test:
   pre:
     - echo n | android create avd --force -n circleci-android-22 -t android-22
-    - emulator64-arm -avd circleci-android-22 -no-skin -no-audio -no-window &
+    - emulator -avd circleci-android-22 -no-skin -no-audio -no-window &
     - circle-android wait-for-boot
     - adb shell input keyevent 82 &
   override:
