@@ -7,4 +7,4 @@ dependencies:
 
 test:
     override:
-        - docker run -it android_test_sample2 ./
+        - docker run -it android_test_sample2 ./start-test
