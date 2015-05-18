@@ -1,3 +1,3 @@
 #!/bin/bash
 ./start-emulator
-./gradlew --stacktrace connectedAndroidTest
+./gradlew --stacktrace connectedAndroidTest -PdisablePreDex

@@ -24,7 +24,7 @@ RUN echo y | android update sdk --no-ui --all --filter "${ANDROID_SDK_COMPONENTS
 
 # Support Gradle
 ENV TERM dumb
-ENV JAVA_OPTS -Xms256m -Xmx512m
+ENV JAVA_OPTS -Xmx2048m -XX:MaxPermSize=1024m
 
 ENV PROJECT /project
 
