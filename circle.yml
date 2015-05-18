@@ -4,7 +4,8 @@ machine:
 dependencies:
     override:
         - docker build -t android_test_sample2 .
-
 test:
     override:
         - docker run -it android_test_sample2 ./start-test
+    post:
+        - docker rmi -f android_test_sample2
