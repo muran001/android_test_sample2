@@ -16,6 +16,7 @@ RUN curl -L "${ANDROID_SDK_URL}" | tar --no-same-owner -xz -C /usr/local
 ENV ANDROID_HOME /usr/local/android-sdk-linux
 ENV ANDROID_SDK /usr/local/android-sdk-linux
 ENV PATH ${ANDROID_HOME}/tools:$ANDROID_HOME/platform-tools:$PATH
+ENV ADB_INSTALL_TIMEOUT 8
 
 # Install Android SDK components
 ENV ANDROID_SDK_COMPONENTS platform-tools,build-tools-22.0.1,android-22,extra-android-m2repository,extra-google-m2repository,sys-img-armeabi-v7a-android-22,extra-android-support,
@@ -23,7 +24,7 @@ RUN echo y | android update sdk --no-ui --all --filter "${ANDROID_SDK_COMPONENTS
 
 # Support Gradle
 ENV TERM dumb
-ENV JAVA_OPTS -Xms256m -Xmx512m
+ENV JAVA_OPTS -Xmx2048m -XX:MaxPermSize=1024m
 
 ENV PROJECT /project
 
