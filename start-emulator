@@ -1,5 +1,8 @@
 #!/bin/bash
 AVD=test-emulator
+CONFIG_FILE=/root/.android/avd/test-emulator.avd/config.ini
 
-emulator -avd $AVD -no-skin -no-audio -no-window &
-wait-for-emulator
+sed -i -e 's/hw.ramSize=.*/hw.ramSize=2048/;s/vm.heapSize=.*/vm.heapSize=128/' $CONFIG_FILE
+
+emulator -force-32bit -avd $AVD -no-skin -no-audio -no-window -no-boot-anim &
+wait-for-emulator 
